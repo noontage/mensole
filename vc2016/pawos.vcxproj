@@ -27,16 +27,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\pawconf.h" />
     <ClInclude Include="..\include\pawos.h" />
     <ClInclude Include="..\include\paw\common.h" />
     <ClInclude Include="..\include\paw\console.h" />
+    <ClInclude Include="..\include\paw\console_shell.h" />
     <ClInclude Include="..\include\paw\core.h" />
+    <ClInclude Include="..\include\paw\error.h" />
+    <ClInclude Include="..\include\paw\pstring.h" />
+    <ClInclude Include="..\include\paw\ram.h" />
     <ClInclude Include="..\include\paw\util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\app.c" />
-    <ClCompile Include="..\src\core\console_pc.c" />
+    <ClCompile Include="..\src\core\console.c" />
     <ClCompile Include="..\src\core\core.c" />
+    <ClCompile Include="..\src\core\paw_shell.c" />
+    <ClCompile Include="..\src\core\pstring.c" />
+    <ClCompile Include="..\src\core\ram.c" />
     <ClCompile Include="..\src\core\util.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

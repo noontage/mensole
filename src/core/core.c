@@ -4,138 +4,69 @@
  * author: noontage
  */
 #include "paw/core.h"
+
+#include "paw/error.h"
 #include "paw/util.h"
+#include "paw/ram.h"
+#include "paw/pstring.h"
 
-// global var
-char paw_temp_buf [_PAW_TEMP_BUF_LENGTH_];        //  temporary buffer(global)
-paw_context* paw_root_context;                    //  root context
+// global share
+const char* paw_char_empty = "";
+const char* paw_char_space = " ";
 
-// global status
-paw_context* paw_current_context;                //   current_context
-paw_call_type paw_last_call_type;                //   last(or now) called type
+void* paw_status_result;
 
+//  global not share (NOTE: reccomend not change)
+paw_context  paw_root_context;                  //  root context
+paw_context* paw_current_context;               //   current_context
+paw_uint8    paw_status_calltype;                //   last(or now) called type
 
 //
 // paw_init
 //
 void paw_init()
 {
-  paw_util_init();                                      // util init
-  paw_root_context = paw_define_context("", paw_null);  // create root context
-  paw_current_context = paw_root_context;
+  paw_util_clear_context(&paw_root_context);
+  paw_current_context = &paw_root_context;
 }
 
 //
-// define(create) context
+// register context
 //
-paw_context* paw_define_context(paw_string _name, paw_context* _parent)
+void paw_register_context(paw_context* _context, const char* _name, paw_context* _parent)
 {
-  //  create context
-  paw_context* context = (paw_context*)paw_alloc(sizeof(paw_context));
-  paw_uint size = paw_strnlen(_name, _PAW_MAX_CONTEXT_NAME_) + 1;
-  context->parent = _parent;
-  context->name = (char*)paw_alloc(size);
-  paw_strncpy(context->name, _name, size);
-  paw_util_list_init(&context->child_context_list);
-  paw_util_list_init(&context->paw_config_value_list);
-  paw_util_list_init(&context->paw_function_list);
-  
-  //  add to context_list
-  if(_parent != paw_null) paw_util_list_push(&_parent->child_context_list, context);
-
-  return context;
+  paw_list* target;
+  paw_util_clear_context(_context);
+  if (_parent == paw_null) {
+   target = &paw_root_context.child_list;
+   _context->parent = &paw_root_context;
+  }
+  else {
+    target = &_parent->child_list;
+    _context->parent = _parent;
+  }
+  paw_util_list_push(target, _context);
+  paw_char_to_string(&_context->name, _name);
 }
 
-
 //
-// define config
+// register config
 //
-void paw_define_config(
-  paw_context* _context,     // belong context
-  paw_string _key            // config keyname
-)
-{}
-
-//
-// define command
-//
-void paw_define_command(
-  paw_string _command,                            //  command name
-  paw_context* _context,                          //  belong context (paw_null = global function)
-  paw_result(*function)(paw_string _param)        //  be called function
-)
-{}
-
-//
-// define function  
-// function is called when on each event.
-//
-void paw_define_function(
-  paw_context* _context,                          //  belong context (paw_null = root)
-  paw_result(*function)(paw_string _param),       //  be called function
-  paw_uint8 _call_event                           //  call event (ex. _PAW_ON_BOOT || _PAW_ON_COMMAND_ )
-)
-{}
-
-//
-// define function
-// function is called when change config
-//
-void paw_define_function_on_change_config(
-  paw_config_value* config_value,                 //
-  paw_result(*function)(paw_string _param)        //  be called function
-)
-{}
-
-//
-// write memory
-//
-void paw_write_memory()
+void paw_register_config(paw_context* _context, const char* _name, const char* _default_value, void(*function)())
 {
-  paw_last_call_type = WRITE;
-}
+  paw_config* config = paw_ram_create_config();
+  #ifdef _PAW_DEBUG_
+    if (config == paw_null) {
+      _PAW_ON_ERROR_FUNC_("out of memory - paw_config");
+    }
+  #endif
 
-//
-// commit
-//
-void paw_commit()
-{
-  paw_last_call_type = COMMIT;
-}
+  paw_char_to_string(&config->name, _name);
+  paw_char_to_string(&config->value, _default_value);
 
-/* -------------------------------------------------------------------------------------------------
-//
-// paw_get_last_call_type
-//
-paw_call_type paw_get_last_call_type() {
-  return last_call_type;
-}
+  if (function != paw_null) {
+    paw_util_list_push(&config->function_list, function);
+  }
 
-//
-// paw_core_get_root_context
-//
-paw_context* paw_get_root_context()
-{
-  return root_context;
+  paw_util_list_push(&_context->config_list, config);
 }
-----------------------------------------------------------------------------------------------------*/
-
-//
-// paw_clean
-//
-#ifdef _PAW_USE_GC_
-void paw_clean()
-{
-  // clean context
-  paw_clean_context(paw_root_context);
-
-  // clean root context
-  paw_free(paw_root_context);
-  paw_util_clean();
-}
-
-// clean context
-static void paw_clean_context(paw_context* _base)
-{
-}
-#endif

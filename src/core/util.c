@@ -4,121 +4,67 @@
 * author: noontage
 */
 #include "paw/util.h"
+#include "paw/ram.h"
+#include "paw/error.h"
 
-#ifdef _PAW_USE_GC_
-static paw_list gc_list;
-#endif
+static paw_list paw_list_pool[10];
 
 //
-// util_init
+// paw_util_clear_context
 //
-void paw_util_init()
+void paw_util_clear_context(paw_context *_context)
 {
-  gc_list.next = paw_null;
-  gc_list.self = paw_null;
+  _context->name.c_str = (char*)paw_char_empty;
+  _context->name.len = 0;
+  _context->child_list.next = paw_null;
+  _context->child_list.value = paw_null;
+  _context->config_list.next = paw_null;
+  _context->config_list.value = paw_null;
+  _context->function_list.next = paw_null;
+  _context->function_list.value = paw_null;
+  _context->parent = paw_null;
 }
 
 //
-// paw_util_clean
-//
-void paw_util_clean()
+// paw_util_clear_config
+// 
+void paw_util_clear_config(paw_config* _config)
 {
-// clean gc_list
-#ifdef _PAW_USE_GC_
-  for (paw_list* now = &gc_list; now->next != paw_null; now = now->next) {
-    paw_free(now->self);
-  }
-#endif
+  _config->function_list.next = paw_null;
+  _config->name.c_str    = (char*)paw_char_empty;
+  _config->name.c_str    = (char*)paw_char_empty;
+  _config->value.c_str  = (char*)paw_char_empty;
+  _config->name.c_str    = (char*)paw_char_empty;
 
 }
+
 
 //
 // list_init
 //
-paw_list* paw_util_create_list()
+void paw_util_clear_list(paw_list* _list)
 {
-  paw_list* p_paw_list = paw_alloc(sizeof(paw_list));
-  paw_util_list_init(p_paw_list);
-
-// manage list of list
-#ifdef  _PAW_USE_GC_
-  paw_util_list_push(&gc_list, p_paw_list);
-#endif
-
-  return p_paw_list;
+  _list->next = paw_null;
+  _list->value = paw_null;
 }
 
 //
 // list_push
 //
-void paw_util_list_push(paw_list* _target, void* _value)
+paw_list* paw_util_list_push(paw_list* _target, void* _value)
 {
   while (_target->next != paw_null) {
     _target = _target->next;
   }
-  paw_list* list = (paw_list*)paw_alloc(sizeof(paw_list));
-  list->self = _value;
+  paw_list* list = paw_ram_create_list();
+  list->value = _value;
   _target->next = list;
+
+  #ifdef _PAW_DEBUG_
+  if (list == paw_null) {
+    _PAW_ON_ERROR_FUNC_("out of memory - paw_list");
+  }
+  #endif
+
+  return list;
 }
-
-//
-// paw_util_list_init
-//
-void paw_util_list_init(paw_list* _target)
-{
-  _target->next = paw_null;
-  _target->self = paw_null;
-}
-
-
-// -------------------  paw_malloc ------------------------
-#ifdef _PAW_USE_MALLOC_
-#include <stdlib.h>
-//
-// paw_alloc
-//
-void* paw_alloc(paw_int _size)
-{
-  return malloc((size_t)_size);
-}
-
-//
-// paw_free
-//
-void paw_free(void* ptr)
-{
-  free(ptr);
-}
-#endif
-// -------------------------------------------
-
-
-//
-// String(for PC)
-//
-// -------------------------------------------
-#ifdef  _BUILD_FOR_PC_
-#include <string.h>
-
-// strnlen
-paw_int paw_strnlen(paw_string _str, paw_int _max)
-{
-  return (paw_int)strnlen(_str, _max);
-}
-
-// strncpy
-void paw_strncpy(paw_string _dest, paw_string _src, paw_int _n)
-{
-  strncpy(_dest, _src, _n);
-}
-
-// is match
-paw_bool paw_string_is_match(paw_string _str1, paw_string _str2)
-{}
-
-// dup(clone)
-paw_string paw_string_dup(paw_string _str1)
-{}
-
-// -------------------------------------------
-#endif

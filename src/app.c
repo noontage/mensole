@@ -1,37 +1,57 @@
 /*
- * sample application
- *
- * author: noontage
+ sample application 
+ author: noontage
  */
 #include "pawos.h"
 
-// context
-static paw_context* c_net;      //  network
-static paw_context* c_wlan;     //  wireless lan
+paw_context net;
+paw_context wlan;
+paw_context io;
 
-// app init
-void app_init()
+void paw_error(const char* _s)
 {
 
-  paw_init();                         //  required
-
-  // ------------------------------------------------------
-  //  define context
-  // ------------------------------------------------------
-  // root
-  //  ├─net
-  //  │  ├─wlan
-  //  ├─io
-  // ------------------------------------------------------
-  c_net  = paw_define_context("net",paw_root_context);
-  c_wlan = paw_define_context("wlan",c_net);
-
-//  paw_current_context = c_wlan;
 }
 
-// main
+// ------------------------------------------------------
+//  app_init
+// ------------------------------------------------------
+void app_init()
+{
+  paw_init();                         //  required
+
+  /* * register to system * *
+   
+    root
+    ├─net
+    │  ├─wlan
+    ├─io
+
+                   paw_context  context name    parent context
+                       |          |              |
+                       |          |              |                                                                                   */
+  paw_register_context(&net,    "net",       paw_null);
+  paw_register_context(&wlan,   "wlan",      &net);
+  paw_register_context(&io,     "num",       paw_null);
+
+  /* *  register config  * *
+
+                                       on change 
+                                    function pointer
+                                           |
+                                  default  |
+               belong context  key value   |
+                        | 　　　|　 |      |
+                        |　　　 |　 |　　  |                                                                                         */
+    paw_register_config(&net, "ip", "", paw_null);
+
+}
+
+// ------------------------------------------------------
+//  entrypoint
+// ------------------------------------------------------
 int main()
 {
   app_init();
-  paw_console_basic_shell();
+  paw_shell_start();
 }

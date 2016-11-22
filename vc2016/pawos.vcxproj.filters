@@ -14,41 +14,65 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="ヘッダー ファイル\paw">
-      <UniqueIdentifier>{de99fba1-865a-45f2-a5a6-35a44212ed26}</UniqueIdentifier>
+      <UniqueIdentifier>{76143de4-22b8-4f7b-ad81-cf405637250c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\core">
-      <UniqueIdentifier>{5d581b0c-86e5-44d2-9ab2-957dc8f446b6}</UniqueIdentifier>
+      <UniqueIdentifier>{a47d2641-7487-4cec-8cf9-43aab6f77b17}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\pawos.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\paw\common.h">
       <Filter>ヘッダー ファイル\paw</Filter>
     </ClInclude>
     <ClInclude Include="..\include\paw\console.h">
       <Filter>ヘッダー ファイル\paw</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\paw\console_shell.h">
+      <Filter>ヘッダー ファイル\paw</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\paw\core.h">
+      <Filter>ヘッダー ファイル\paw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\paw\error.h">
+      <Filter>ヘッダー ファイル\paw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\paw\pstring.h">
+      <Filter>ヘッダー ファイル\paw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\paw\ram.h">
       <Filter>ヘッダー ファイル\paw</Filter>
     </ClInclude>
     <ClInclude Include="..\include\paw\util.h">
       <Filter>ヘッダー ファイル\paw</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\pawconf.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\pawos.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\core\console_pc.c">
+    <ClCompile Include="..\src\app.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\util.c">
+      <Filter>ソース ファイル\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\console.c">
       <Filter>ソース ファイル\core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\core.c">
       <Filter>ソース ファイル\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\core\util.c">
+    <ClCompile Include="..\src\core\paw_shell.c">
       <Filter>ソース ファイル\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\app.c">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="..\src\core\pstring.c">
+      <Filter>ソース ファイル\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\ram.c">
+      <Filter>ソース ファイル\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

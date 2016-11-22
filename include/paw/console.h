@@ -8,17 +8,13 @@
 #ifndef _PAW_CONSOLE_
 #define _PAW_CONSOLE_
 
-// basico io
-void  paw_console_puts(const paw_string str);
-void  paw_console_print(const paw_string str);
-paw_string paw_console_gets();
+// standard io
+void        paw_console_print(const char* _pstr);
+void        paw_console_puts(const char* _pstr);
+paw_string* paw_console_gets();                           //  set user input on 'paw_buf_share'
 
-// functional
-void  paw_console_basic_shell();
-void  paw_console_put_current_context();
-
-static paw_uint8 paw_console_getc();
-static void paw_console_putch(paw_uint8 _ch);
-static void paw_console_print_current_context(paw_context* _context);
+// standard io a chara
+paw_uint8   paw_console_getc();
+void        paw_console_putc(paw_uint8 _ch);
 
 #endif
