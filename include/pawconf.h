@@ -62,6 +62,8 @@
   #define _PAW_CONSOLE_SHELL_PROMPT_SUPER_              '#'		//	prompt char(super)
 #endif
 
+#define _PAW_ENABLE_AT_SHELL_
+
 ////
 // access control
 ////

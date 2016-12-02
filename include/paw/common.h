@@ -58,6 +58,12 @@ typedef struct {
 } paw_list;
 
 //
+// key
+//
+typedef paw_uint paw_key;
+
+
+//
 // string
 //
 typedef struct {
@@ -69,7 +75,7 @@ typedef struct {
 // config
 //
 typedef struct {
-  paw_uint   key;
+  paw_key   key;
   paw_string value;
 } paw_config;
 
@@ -79,7 +85,7 @@ typedef struct {
 struct paw_context_t
 {
   void* parent;
-  paw_uint key;
+  paw_key key;
   paw_list function_list;
   paw_list config_list;
   paw_list child_list;

@@ -1,10 +1,11 @@
 /*
- *  ram_pool.c
+ *  ram.c
  *
  * describe: pool
  * author: noontage
 */
 #include "paw/ram.h"
+#include "paw/util.h"
 
 #ifdef _PAW_ENABLE_MALLOC_
 static char       heap[_PAW_HEAP_SIZE];
@@ -55,6 +56,20 @@ void* paw_palloc(size_t _require_size)
   static paw_uint8    seek_function = 0;
   static paw_uint8    seek_config   = 0;
 #endif
+
+//
+// paw_ram_create_context
+// 
+paw_context* paw_ram_create_context()
+{
+#ifdef _PAW_ENABLE_MALLOC_
+  return (paw_context*)paw_palloc(sizeof(paw_context));
+#else
+  seek_list++;
+  if (seek_list > _PAW_POOLSIZE_LIST_) return paw_null;
+  return &paw_list_pool[seek_list - 1];
+#endif
+}
 
 //
 // paw_ram_create_list

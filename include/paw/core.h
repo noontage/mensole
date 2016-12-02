@@ -9,10 +9,11 @@
 
 void paw_init();
 
-void paw_register_context(paw_context* _context, const char* _name, paw_context* _parent);
-void paw_register_config(paw_context* _context, const char* _name, const char* _default_value);
-void paw_register_function(paw_context* _context, void (*function)());
+paw_context* paw_define_context(paw_key _key, paw_context* _parent);
+paw_config* paw_define_config(paw_context* _context, paw_key _key, paw_string _default_value);
+void paw_define_function(paw_context* _context, void (*function)());
 
-const char* paw_config_get_value(const char* _name);
+void       paw_set_config(paw_key _key, paw_string _value);
+paw_string paw_get_config(paw_key _key);
 
 #endif

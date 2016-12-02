@@ -10,6 +10,7 @@
 
 void          paw_ram_init();
 void*         paw_palloc(size_t _require_size);
+paw_context*  paw_ram_create_context();
 paw_list*     paw_ram_create_list();
 paw_config*   paw_ram_create_config();
 

@@ -32,26 +32,26 @@ void paw_init()
 //
 // register context
 //
-void paw_register_context(paw_context* _context, const char* _name, paw_context* _parent)
+paw_context* paw_define_context(paw_key _key, paw_context* _parent)
 {
-  paw_list* target;
-  paw_util_clear_context(_context);
-  if (_parent == paw_null) {
-   target = &paw_root_context.child_list;
-   _context->parent = &paw_root_context;
-  }
-  else {
-    target = &_parent->child_list;
-    _context->parent = _parent;
-  }
-  paw_util_list_push(target, _context);
-  paw_char_to_string(&_context->name, _name);
+  paw_context* context = paw_ram_create_context();
+  #ifdef _PAW_DEBUG_
+    if (context == paw_null) {
+      _PAW_ON_ERROR_FUNC_("out of memory - paw_context");
+    }
+  #endif
+  paw_util_clear_context(context);
+  context->key = _key;
+  context->parent = _parent;
+  paw_util_list_push(&_parent->child_list, context);
+
+  return context;
 }
 
 //
 // register config
 //
-void paw_register_config(paw_context* _context, const char* _name, const char* _default_value)
+paw_config* paw_define_config(paw_context* _context, paw_key _key, paw_string _default_value)
 {
   paw_config* config = paw_ram_create_config();
   #ifdef _PAW_DEBUG_
@@ -60,8 +60,16 @@ void paw_register_config(paw_context* _context, const char* _name, const char* _
     }
   #endif
 
-  paw_char_to_string(&config->name, _name);
-  paw_char_to_string(&config->value, _default_value);
+  paw_util_clear_config(config);
+  config->key = _key;
+  config->value = _default_value;
+
   paw_util_list_push(&_context->config_list, config);
+
+  return config;
+}
+
+void paw_define_function(paw_context* _context, void(*function)())
+{
 
 }

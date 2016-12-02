@@ -3,13 +3,16 @@
  author: noontage
  */
 #include "pawos.h"
+#include "paw/util.h"
 
-paw_context ip;
-paw_context wlan;
-paw_context io;
+paw_context* ip;
+paw_context* wlan;
+paw_context* io;
 
 void paw_error(const char* _msg)
-{}
+{
+  
+}
 
 // ------------------------------------------------------
 //  app_init
@@ -21,16 +24,16 @@ void app_init()
   /* * register to system * *
    
     root
-    ├─net
+    ├─ip
     │  ├─wlan
     ├─io
-
-                   paw_context  context name    parent context
-                       |          |              |
-                       |          |              |                                                                                   */
-  paw_register_context(&ip,     "ip",        paw_null);
-  paw_register_context(&wlan,   "wlan",      &ip);
-  paw_register_context(&io,     "num",       paw_null);
+    
+                   　　　　　      unique key    parent context
+                                       |              　　|
+                                       |             　 　|                                                                                   */
+  ip   = paw_define_context(paw_create_uniq_key(), &paw_root_context);
+  wlan = paw_define_context(paw_create_uniq_key(), ip);
+  io   = paw_define_context(paw_create_uniq_key(), &paw_root_context);
 
   /* *  register config  * *
                                            

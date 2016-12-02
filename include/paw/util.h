@@ -16,4 +16,7 @@ void paw_util_clear_list(paw_list* _list);
 // list
 paw_list* paw_util_list_push(paw_list* _target, void* _value);
 
+// key
+paw_key paw_create_uniq_key();
+
 #endif // util.h
