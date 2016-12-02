@@ -31,8 +31,8 @@
 //
 // call result
 //
-#define _PAW_CALLTYPE_SUCCESS_     0x01
-#define _PAW_CALLTYPE_FAILED_      0x02
+#define _PAW_CALLTYPE_SUCCESS_       0x01
+#define _PAW_CALLTYPE_FAILED_        0x02
 
 //
 // basic typedef
@@ -66,21 +66,11 @@ typedef struct {
 } paw_string;
 
 //
-// function
-//
-typedef struct
-{
-	paw_string name;
-	paw_uint8(*function)(paw_string param);
-} paw_function;
-
-//
 // config
 //
 typedef struct {
-  paw_string name;
+  paw_uint   key;
   paw_string value;
-  paw_list function_list;
 } paw_config;
 
 //
@@ -89,7 +79,7 @@ typedef struct {
 struct paw_context_t
 {
   void* parent;
-  paw_string name;
+  paw_uint key;
   paw_list function_list;
   paw_list config_list;
   paw_list child_list;
@@ -107,7 +97,6 @@ extern const char* paw_char_space;
 // current status
 extern paw_context  paw_root_context;                  //  root context
 extern paw_context* paw_current_context;               //  current_context
-extern void* paw_status_result;
 
 // autoset status
 extern paw_uint8    paw_status_calltype;                //  last(or now) called type

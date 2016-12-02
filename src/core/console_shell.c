@@ -52,11 +52,6 @@ static void find_list_by_name(const paw_list* _list, const enum paw_command_type
       s = &pcfg->name;
       type = CONFIG;
     }
-    else if (_type == FUNCTION) {
-      paw_function* pfnc = (paw_function*)plist->value;
-      s = &pfnc->name;
-      type = FUNCTION;
-    }
     // is match?
     #ifdef _PAW_CONSOLE_SHELL_USE_FORWARD_MATCH_
     if (paw_string_is_forwardmatch(s, _string)) {
@@ -75,7 +70,7 @@ static void find_list_by_name(const paw_list* _list, const enum paw_command_type
 // print_avairable_command
 static void find_all_by_name(const paw_string* _command)
 {
-  command_result.type = UNREC;
+  command_result.type = UNRECOGNIZED;
 
   // ignore empty
   if (paw_string_is_empty(_command)) {
@@ -93,12 +88,11 @@ static void find_all_by_name(const paw_string* _command)
   // search
   find_list_by_name(&paw_current_context->child_list,    CONTEXT,    _command);
   find_list_by_name(&paw_current_context->config_list,   CONFIG,     _command);
-  find_list_by_name(&paw_current_context->function_list, FUNCTION,   _command);
 
   // ambig check
   #ifdef _PAW_CONSOLE_SHELL_USE_FORWARD_MATCH_
   if (command_result.match > 1) {
-    command_result.type = AMBIG;
+    command_result.type = AMBIGUOUS;
     return;
   }
   #endif
@@ -156,7 +150,7 @@ void  paw_shell_start()
       break;
     // --- anbig
     #ifdef _PAW_CONSOLE_SHELL_USE_FORWARD_MATCH_
-    case AMBIG:
+    case AMBIGUOUS:
       paw_console_puts(_PAW_CONSOLE_SHELL_MSG_AMBIG_);
       break;
     #endif

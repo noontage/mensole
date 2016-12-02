@@ -23,10 +23,6 @@ url:
 
 **********************************************************************/
 
-#include "paw/common.h"
-#include "paw/console.h"
 #include "paw/core.h"
-#include "paw/ram.h"
-#include "paw/pstring.h"
 #include "paw/console_shell.h"
 #include "paw/error.h"

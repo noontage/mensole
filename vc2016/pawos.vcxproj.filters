@@ -65,13 +65,13 @@
     <ClCompile Include="..\src\core\core.c">
       <Filter>ソース ファイル\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\core\paw_shell.c">
-      <Filter>ソース ファイル\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\core\pstring.c">
       <Filter>ソース ファイル\core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\ram.c">
+      <Filter>ソース ファイル\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\console_shell.c">
       <Filter>ソース ファイル\core</Filter>
     </ClCompile>
   </ItemGroup>

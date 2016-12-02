@@ -8,8 +8,9 @@
 #define _PAW_RAM_
 #include "common.h"
 
+void          paw_ram_init();
+void*         paw_palloc(size_t _require_size);
 paw_list*     paw_ram_create_list();
 paw_config*   paw_ram_create_config();
-paw_function* paw_ram_create_function();
 
 #endif // ram.h

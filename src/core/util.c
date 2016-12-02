@@ -7,8 +7,6 @@
 #include "paw/ram.h"
 #include "paw/error.h"
 
-static paw_list paw_list_pool[10];
-
 //
 // paw_util_clear_context
 //
@@ -30,7 +28,6 @@ void paw_util_clear_context(paw_context *_context)
 // 
 void paw_util_clear_config(paw_config* _config)
 {
-  _config->function_list.next = paw_null;
   _config->name.c_str    = (char*)paw_char_empty;
   _config->name.c_str    = (char*)paw_char_empty;
   _config->value.c_str  = (char*)paw_char_empty;

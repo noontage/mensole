@@ -4,14 +4,12 @@
  */
 #include "pawos.h"
 
-paw_context net;
+paw_context ip;
 paw_context wlan;
 paw_context io;
 
-void paw_error(const char* _s)
-{
-
-}
+void paw_error(const char* _msg)
+{}
 
 // ------------------------------------------------------
 //  app_init
@@ -30,20 +28,17 @@ void app_init()
                    paw_context  context name    parent context
                        |          |              |
                        |          |              |                                                                                   */
-  paw_register_context(&net,    "net",       paw_null);
-  paw_register_context(&wlan,   "wlan",      &net);
+  paw_register_context(&ip,     "ip",        paw_null);
+  paw_register_context(&wlan,   "wlan",      &ip);
   paw_register_context(&io,     "num",       paw_null);
 
   /* *  register config  * *
-
-                                       on change 
-                                    function pointer
-                                           |
-                                  default  |
-               belong context  key value   |
-                        | 　　　|　 |      |
-                        |　　　 |　 |　　  |                                                                                         */
-    paw_register_config(&net, "ip", "", paw_null);
+                                           
+                                     default  
+               belong context  key    value   
+                        | 　　　|　     |     
+                        |　　　 |　     |　　                                                                                              */
+  paw_register_config(&wlan, "address", "");
 
 }
 

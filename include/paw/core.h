@@ -10,8 +10,9 @@
 void paw_init();
 
 void paw_register_context(paw_context* _context, const char* _name, paw_context* _parent);
-void paw_register_config(paw_context* _context, const char* _name, const char* _default_value, void(*function)());
+void paw_register_config(paw_context* _context, const char* _name, const char* _default_value);
+void paw_register_function(paw_context* _context, void (*function)());
 
-void paw_change_config(paw_config* _config, paw_string* _value);
+const char* paw_config_get_value(const char* _name);
 
 #endif

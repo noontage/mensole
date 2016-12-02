@@ -11,21 +11,20 @@
 #include "paw/pstring.h"
 
 // global share
-const char* paw_char_empty = "";
-const char* paw_char_space = " ";
+const char* paw_char_empty = _PAW_CHAR_EMPTY_;
+const char* paw_char_space = _PAW_CHAR_SPACE_;
 
-void* paw_status_result;
-
-//  global not share (NOTE: reccomend not change)
+//  global instance
 paw_context  paw_root_context;                  //  root context
 paw_context* paw_current_context;               //   current_context
-paw_uint8    paw_status_calltype;                //   last(or now) called type
+paw_uint8    paw_status_calltype;               //   last(or now) called type
 
 //
 // paw_init
 //
 void paw_init()
 {
+  paw_ram_init();
   paw_util_clear_context(&paw_root_context);
   paw_current_context = &paw_root_context;
 }
@@ -52,7 +51,7 @@ void paw_register_context(paw_context* _context, const char* _name, paw_context*
 //
 // register config
 //
-void paw_register_config(paw_context* _context, const char* _name, const char* _default_value, void(*function)())
+void paw_register_config(paw_context* _context, const char* _name, const char* _default_value)
 {
   paw_config* config = paw_ram_create_config();
   #ifdef _PAW_DEBUG_
@@ -63,10 +62,6 @@ void paw_register_config(paw_context* _context, const char* _name, const char* _
 
   paw_char_to_string(&config->name, _name);
   paw_char_to_string(&config->value, _default_value);
-
-  if (function != paw_null) {
-    paw_util_list_push(&config->function_list, function);
-  }
-
   paw_util_list_push(&_context->config_list, config);
+
 }
