@@ -12,7 +12,7 @@ description:
    default console is cisco IOS like prompt.
 
   [use case]
-  
+
 author:
   noontage
 
@@ -22,7 +22,6 @@ url:
   https://github.com/noontage/mensole
 
 **********************************************************************/
-
+#include "paw/common.h"
 #include "paw/core.h"
-#include "paw/console_shell.h"
 #include "paw/error.h"

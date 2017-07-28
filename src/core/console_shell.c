@@ -9,7 +9,6 @@
 #include "paw/console.h"
 #include "paw/pstring.h"
 #include <stdio.h>
-#include <conio.h>
 
 #ifdef _PAW_ENABLE_CONSOLE_SHELL_
 
@@ -33,12 +32,12 @@ static struct COMMAND_RESULT{
 //
 
 // search match string
-static void find_list_by_name(const paw_list* _list, const enum paw_command_type _type, const paw_string* _string)
+static void find_list_by_name(const paw_list* _list, enum paw_command_type _type, const paw_string* _string)
 {
   paw_list* plist = _list->next;
   paw_string* s=paw_null;
   enum paw_command_type type;
-  
+
   // search
   while (plist != paw_null) {
     // set compare target strings
@@ -154,7 +153,7 @@ void  paw_shell_start()
       paw_console_puts(_PAW_CONSOLE_SHELL_MSG_AMBIG_);
       break;
     #endif
-    // --- not found 
+    // --- not found
     default:
       paw_console_puts(_PAW_CONSOLE_SHELL_MSG_UNREC_);
       break;

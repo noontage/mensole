@@ -10,6 +10,14 @@
 #include "paw/ram.h"
 #include "paw/pstring.h"
 
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <curses.h>
+#endif
+
+#include <stddef.h>
+
 // global share
 const char* paw_char_empty = _PAW_CHAR_EMPTY_;
 const char* paw_char_space = _PAW_CHAR_SPACE_;
@@ -27,6 +35,10 @@ void paw_init()
   paw_ram_init();
   paw_util_clear_context(&paw_root_context);
   paw_current_context = &paw_root_context;
+#ifdef _WIN32
+#else
+  initscr();timeout(-1);
+#endif
 }
 
 //

@@ -1,5 +1,5 @@
 /*
- sample application 
+ sample application
  author: noontage
  */
 #include "pawos.h"
@@ -11,7 +11,6 @@ paw_context* io;
 
 void paw_error(const char* _msg)
 {
-  
 }
 
 // ------------------------------------------------------
@@ -22,26 +21,26 @@ void app_init()
   paw_init();                         //  required
 
   /* * register to system * *
-   
+
     root
-    „¥„Ÿip
-    „   „¥„Ÿwlan
-    „¥„Ÿio
-    
-                   @@@@@      unique key    parent context
-                                       |              @@|
-                                       |             @ @|                                                                                   */
-  ip   = paw_define_context(paw_create_uniq_key(), &paw_root_context);
-  wlan = paw_define_context(paw_create_uniq_key(), ip);
-  io   = paw_define_context(paw_create_uniq_key(), &paw_root_context);
+    ï¿½ï¿½ï¿½ï¿½ip
+    ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½wlan
+    ï¿½ï¿½ï¿½ï¿½io
+
+                   ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@      unique key    parent context
+                                       |              ï¿½@ï¿½@|
+                                       |             ï¿½@ ï¿½@|                                                                                   */
+  //ip   = paw_define_context(paw_create_uniq_key(), &paw_root_context);
+  //wlan = paw_define_context(paw_create_uniq_key(), ip);
+  //io   = paw_define_context(paw_create_uniq_key(), &paw_root_context);
 
   /* *  register config  * *
-                                           
-                                     default  
-               belong context  key    value   
-                        | @@@|@     |     
-                        |@@@ |@     |@@                                                                                              */
-  paw_register_config(&wlan, "address", "");
+
+                                     default
+               belong context  key    value
+                        | ï¿½@ï¿½@ï¿½@|ï¿½@     |
+                        |ï¿½@ï¿½@ï¿½@ |ï¿½@     |ï¿½@ï¿½@                                                                                              */
+  //paw_register_config(&wlan, "address", "");
 
 }
 
@@ -51,5 +50,5 @@ void app_init()
 int main()
 {
   app_init();
-  paw_shell_start();
+  //paw_shell_start();
 }

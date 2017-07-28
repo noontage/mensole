@@ -1,13 +1,18 @@
 /*
  * console_pc
  *
- * note: console for PC
+ * note: console
  * author: noontage
  */
 #include <stdio.h>
-#include <conio.h>
 #include "paw/pstring.h"
 #include "paw/console.h"
+
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <curses.h>
+#endif
 
 // global
 static char paw_share_buf[_PAW_CONSOLE_BUFSIZE_GETS_];
@@ -39,7 +44,7 @@ paw_uint8 paw_console_getc()
 void paw_console_putc(paw_uint8 _ch)
 {
   #ifdef _PAW_BUILD_FOR_PC_
-  putch(_ch);
+  putch(_ch,stdout);
   #endif
 }
 
