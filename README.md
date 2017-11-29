@@ -1,2 +1,1 @@
-# For MicroContloller Terminal
-#### rommon like(may be...)
+### CLI configration interface for MicroContloller
